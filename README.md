@@ -59,11 +59,11 @@ building\_generator\_tool/
 
 \### main.py
 
-* `create\_story(floor\_width, floor\_thickness, floor\_depth, wall\_height, wall\_thickness,
+* `create\_story(floor\_width, floor\_thickness, floor\_depth, wall\_height, wall\_thickness,`
 
-&#x20;                window\_count, window\_width, window\_height, window\_pane\_thickness,
+&#x20;                `window\_count, window\_width, window\_height, window\_pane\_thickness,`
 
-&#x20;                window\_position)` - Create one story of the building
+&#x20;                `window\_position)` - Create one story of the building
 
-* `create\_building(floor\_count, roof\_thickness) - Create the full building
+* `create\_building(floor\_count, roof\_thickness)` - Create the full building
 
