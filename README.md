@@ -43,9 +43,9 @@ building\_generator\_tool/
 \### geometry\_utils.py
 
 * `create\_floor(width, height, depth)` - Cube on ground
-* `create\_walls(height, thickness)` - Pipe on floor
-* `create\_windows(count, width, height, pane\_thickness, position)` - Cubes in created holes
-* `create\_roof(height)` - Cube above walls
+* `create\_walls(radius, height, thickness)` - Pipe on floor
+* `create\_windows(count, width, height, depth, pane\_thickness, position)` - Cubes in created holes
+* `create\_roof(width, roof\_height, depth, radius, edge\_height, thickness, position)` - Cube above walls
 
 
 
@@ -59,11 +59,9 @@ building\_generator\_tool/
 
 \### main.py
 
-* `create\_story(floor\_width, floor\_thickness, floor\_depth, wall\_height, wall\_thickness,`
+`create\_story(floor\_size, floor\_thickness, wall\_height, wall\_thickness, window\_count, window\_width, 
 
-&#x20;                `window\_count, window\_width, window\_height, window\_pane\_thickness,`
+&#x20;                `window\_height, window\_pane\_thickness, window\_position)` - Create one story of the building
 
-&#x20;                `window\_position)` - Create one story of the building
-
-* `create\_building(floor\_count, roof\_thickness)` - Create the full building
+* `generate\_building(floor\_count, roof\_thickness)` - Create the full building
 
