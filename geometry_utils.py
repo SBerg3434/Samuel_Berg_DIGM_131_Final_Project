@@ -3,7 +3,7 @@
 geometry_utils.py -- Geometry creation functions 
 for building_generator_tool.py.
 ===============================================================================
-DIGM 131 - Week 6 | Author: Samuel Berg
+DIGM 131 - Week 7 | Author: Samuel Berg
 
 Geometry utility functions for creating and manipulating 3D primitives.
 
@@ -16,7 +16,10 @@ Usage:
 """
 
 import maya.cmds as cmds
+import importlib
 
+import config as con
+importlib.reload(con)
 
 def create_floor(
             width=50,
@@ -34,13 +37,24 @@ def create_floor(
         str: The name of the created transform node.
     """
 
-    #Create the floor with the given parameters and position it at ground level
-    floor = cmds.polyCube(name="floor_01",
-                width=width,
-                height=height,
-                depth=depth) [0]
-    cmds.move(0, height/2.0, 0, floor)
-    
+    if con.DEBUG:
+        print(f"[DEBUG] create_floor: width={width}, height={height}, depth={depth}")
+    if width <= 0:
+        cmds.warning(f"Invalid width {width}"); width = 1
+    if height <= 0:
+        cmds.warning(f"Invalid height {height}"); height = 1
+    if depth <= 0:
+        cmds.warning(f"Invalid depth {depth}"); depth = 1
+    try:
+        #Create the floor with the given parameters and position it at ground level
+        floor = cmds.polyCube(name="floor_01",
+                    width=width,
+                    height=height,
+                    depth=depth) [0]
+        cmds.move(0, height/2.0, 0, floor)
+    except Exception as e:
+        cmds.warning(f"Failed: {e}"); return None
+
     return floor
 
 def create_walls(
@@ -59,16 +73,27 @@ def create_walls(
         str: The name of the created transform node.
     """
     
+    if con.DEBUG:
+        print(f"[DEBUG] create_walls: radius={radius}, height={height}, thickness={thickness}")
+    if radius <= 0:
+        cmds.warning(f"Invalid radius {radius}"); radius = 0.5
+    if height <= 0:
+        cmds.warning(f"Invalid height {height}"); height = 1
+    if thickness <= 0:
+        cmds.warning(f"Invalid thickness {thickness}"); thickness = 0.5
+    try:
     #Create the walls with the given parameters, position them at ground level,
     #    and rotate them 45 degrees so they line up with the floor
-    walls = cmds.polyPipe(name="wall_01",
-                height=height,
-                radius=radius,
-                thickness=thickness,
-                subdivisionsAxis=4)[0]
-    cmds.move(0, height/4.0, 0, walls)
-    cmds.rotate(0, 45, 0, walls)
-    
+        walls = cmds.polyPipe(name="wall_01",
+                    height=height,
+                    radius=radius,
+                    thickness=thickness,
+                    subdivisionsAxis=4)[0]
+        cmds.move(0, height/4.0, 0, walls)
+        cmds.rotate(0, 45, 0, walls)
+    except Exception as e:
+        cmds.warning(f"Failed: {e}"); return None
+        
     return walls
     
     
@@ -91,26 +116,39 @@ def create_window(name="window_pane_01",
         str: The name of the created transform node.
     """
     
-    #Create and position the interceptor with the given parameters
-    window_interceptor = cmds.polyCube(
-                width=width,
-                height=height,
-                depth=depth)[0]
-    cmds.move(position[0], 
-                position[1], 
-                position[2],
-                window_interceptor)
-    
-    #Create and position the window pane with the given parameters
-    window_pane = cmds.polyCube(name=name,
-                width=width,
-                height=height,
-                depth=pane_thickness)[0]  
-    cmds.move(position[0], 
-                position[1], 
-                position[2],
-                window_pane)
-
+    if con.DEBUG:
+        print(f"[DEBUG] create_window: width={width}, height={height}, depth={depth}, pane thickness={pane_thickness}")
+    if width <= 0:
+        cmds.warning(f"Invalid width {width}"); width = 1
+    if height <= 0:
+        cmds.warning(f"Invalid height {height}"); height = 1
+    if depth <= 0:
+        cmds.warning(f"Invalid depth {depth}"); depth = 1
+    if pane_thickness <= 0:
+        cmds.warning(f"Invalid pane thickness {pane_thickness}"); pane_thickness = 0.25
+    try:
+        #Create and position the interceptor with the given parameters
+        window_interceptor = cmds.polyCube(
+                    width=width,
+                    height=height,
+                    depth=depth)[0]
+        cmds.move(position[0], 
+                    position[1], 
+                    position[2],
+                    window_interceptor)
+        
+        #Create and position the window pane with the given parameters
+        window_pane = cmds.polyCube(name=name,
+                    width=width,
+                    height=height,
+                    depth=pane_thickness)[0]  
+        cmds.move(position[0], 
+                    position[1], 
+                    position[2],
+                    window_pane)
+    except Exception as e:
+        cmds.warning(f"Failed: {e}"); return None
+        
     return (window_pane, window_interceptor)
  
     
@@ -138,29 +176,47 @@ def create_roof(
         str: The name of a group node containing the roof and roof ledge.
     """
     
-    #Create the roof with the given parameters
-    roof = cmds.polyCube(name="roof_01",
-                width=width,
-                height=roof_height,
-                depth=depth) [0]
-    
-    #Create the roof edge with the given parameters and rotate them
-    #    45 degrees so they line up with the rest of the building
-    roof_edge = cmds.polyPipe(name="roof_edge_01",
-                height=edge_height,
-                radius=radius,
-                thickness=thickness,
-                subdivisionsAxis=4)[0]
-    cmds.rotate(0, 45, 0, roof_edge)
-    
-    #Group the roof and roof edge together
-    #    and position the group with the given parameters
-    roof_full = cmds.group(roof, roof_edge, name="roof_full_01")
-    cmds.move(position[0], 
-                position[1], 
-                position[2],
-                roof_full)
-                
+    if con.DEBUG:
+        print(f"[DEBUG] create_roof: width={width}, roof height={roof_height}, depth={depth}, " 
+                f"radius={radius}, edge height={edge_height}, thickness={thickness}")
+    if width <= 0:
+        cmds.warning(f"Invalid width {width}"); width = 1
+    if roof_height <= 0:
+        cmds.warning(f"Invalid roof height {roof_height}"); roof_height = 1
+    if depth <= 0:
+        cmds.warning(f"Invalid depth {depth}"); depth = 1
+    if radius <= 0:
+        cmds.warning(f"Invalid radius {radius}"); radius = 0.5
+    if edge_height <= 0:
+        cmds.warning(f"Invalid edge height {edge_height}"); edge_height = 1
+    if depth <= 0:
+        cmds.warning(f"Invalid thickness {thickness}"); thickness = 0.5
+    try:
+        #Create the roof with the given parameters
+        roof = cmds.polyCube(name="roof_01",
+                    width=width,
+                    height=roof_height,
+                    depth=depth) [0]
+        
+        #Create the roof edge with the given parameters and rotate them
+        #    45 degrees so they line up with the rest of the building
+        roof_edge = cmds.polyPipe(name="roof_edge_01",
+                    height=edge_height,
+                    radius=radius,
+                    thickness=thickness,
+                    subdivisionsAxis=4)[0]
+        cmds.rotate(0, 45, 0, roof_edge)
+        
+        #Group the roof and roof edge together
+        #    and position the group with the given parameters
+        roof_full = cmds.group(roof, roof_edge, name="roof_full_01")
+        cmds.move(position[0], 
+                    position[1], 
+                    position[2],
+                    roof_full)
+    except Exception as e:
+        cmds.warning(f"Failed: {e}"); return None
+                    
     return roof_full
     
                   
