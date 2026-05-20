@@ -15,11 +15,11 @@ automatically.
 
 ## Project Structure
 building_generator_tool/
-    geometry_utils.py    # Geometry creation functions
-    material_utils.py    # Material shading functions
-    config.py            # DEBUG mode on or off
-    main.py              # Entry point, data, driver loop
-    README.md            # This file
+- geometry_utils.py    # Geometry creation functions
+- material_utils.py    # Material shading functions
+- config.py            # DEBUG mode on or off
+- main.py              # Entry point, data, driver loop
+- README.md            # This file
 
 ## Functions I Need to Write
 ### geometry_utils.py
