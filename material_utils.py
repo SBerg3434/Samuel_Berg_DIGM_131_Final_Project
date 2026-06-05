@@ -3,7 +3,7 @@
 material_utils.py -- Material creation and assignment functions 
 for building_generator_tool.py.
 =======================================================================
-DIGM 131 - Week 7 | Author: Samuel Berg
+DIGM 131 - Week 6 | Author: Samuel Berg
 
 Material utility functions for creating and assigning shaders in Maya. 
 

@@ -3,7 +3,7 @@
 geometry_utils.py -- Geometry creation functions 
 for building_generator_tool.py.
 ===============================================================================
-DIGM 131 - Week 7 | Author: Samuel Berg
+DIGM 131 - Week 6 | Author: Samuel Berg
 
 Geometry utility functions for creating and manipulating 3D primitives.
 
