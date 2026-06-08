@@ -7,7 +7,7 @@ the windows and the full building, window and story counts, and
 material colors, and the tool builds the building automatically.
 
 ## How To Use
-1. Open the main.py script in Maya's script editor.
+1. Open the main.py script in Maya's script editor.  
 	NOTE: The main.py script should automatically look for the other three
 	modules in the correct location, but if it does not, paste them into
 	Maya's default script folder (Documents --> maya --> scripts)
