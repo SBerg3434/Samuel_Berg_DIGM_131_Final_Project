@@ -20,5 +20,5 @@ material colors, and the tool builds the building automatically.
    "DEBUG" variable to "True" in config.py.  
    
 NOTE: The tool can be used to generate as many buildings as desired by the
-artist.
+artist by simply clicking the "Generate" button multiple times.
 
