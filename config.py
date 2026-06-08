@@ -2,7 +2,7 @@
 """
 config.py -- DEBUG variable for all modules
 ===============================================================================
-DIGM 131 - Week 6 | Author: Samuel Berg
+DIGM 131 - Week 11 | Author: Samuel Berg
 
 DEBUG variable for troubleshooting
 
@@ -13,4 +13,4 @@ Usage:
     DEBUG=True
 """
 
-DEBUG = True
+DEBUG = False

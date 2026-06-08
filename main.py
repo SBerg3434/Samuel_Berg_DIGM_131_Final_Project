@@ -2,7 +2,7 @@
 """
 main.py -- Entry point for building_generator_tool.py.
 =============================================================
-DIGM 131 - Week 10 | Author: Samuel Berg
+DIGM 131 - Week 11 | Author: Samuel Berg
 
 Main entry point that imports and uses all utility modules to
 generate a building.
@@ -93,41 +93,58 @@ def create_story(
                 f"floor color={floor_color}")
     #Warning messages for negative values
     if floor_size <= 0:
-        cmds.warning(f"Invalid floor size {floor_size}"); floor_size = 1
+        cmds.warning(f"Invalid floor size {floor_size}")
+        floor_size = 1
     if floor_thickness <= 0:
-        cmds.warning(f"Invalid floor thickness {floor_thickness}"); floor_thickness = 1
+        cmds.warning(f"Invalid floor thickness {floor_thickness}")
+        floor_thickness = 1
     if wall_height <= 0:
-        cmds.warning(f"Invalid wall height {wall_height}"); wall_height = 1
+        cmds.warning(f"Invalid wall height {wall_height}")
+        wall_height = 1
     if wall_thickness <= 0:
-        cmds.warning(f"Invalid wall thickness {wall_thickness}"); wall_thickness = 1
+        cmds.warning(f"Invalid wall thickness {wall_thickness}")
+        wall_thickness = 1
     if window_count < 0:
-        cmds.warning(f"Invalid amount of windows {window_count}"); window_count = 0
+        cmds.warning(f"Invalid amount of windows {window_count}")
+        window_count = 0
     if window_width <= 0:
-        cmds.warning(f"Invalid window width {wnidow_width}"); window_width = 1
+        cmds.warning(f"Invalid window width {wnidow_width}")
+        window_width = 1
     if window_height <= 0:
-        cmds.warning(f"Invalid window height {window_height}"); window_height = 1
+        cmds.warning(f"Invalid window height {window_height}")
+        window_height = 1
     if window_pane_thickness <= 0:
-        cmds.warning(f"Invalid window pane thickness {window_pane_thickness}"); window_pane_thickness = 1
+        cmds.warning(f"Invalid window pane thickness {window_pane_thickness}") 
+        window_pane_thickness = 1
     if window_count > 4:
-        cmds.warning(f"Too many windows, defaulted to 4"); window_count = 4
+        cmds.warning("Too many windows, defaulted to 4")
+        window_count = 4
         
     #Error messages for broken values
     if floor_size <= window_width:
-        cmds.error(f"Window width '{window_width}' cannot be less than or equal to floor size '{floor_size}'")
+        cmds.error(f"Window width '{window_width}' cannot be "
+                    f"less than or equal to floor size '{floor_size}'")
     if floor_size <= wall_thickness:
-        cmds.error(f"Wall thickness '{wall_thickness}' cannot be less than or equal to floor size '{floor_size}'")
+        cmds.error(f"Wall thickness '{wall_thickness}' cannot be "
+        f"less than or equal to floor size '{floor_size}'")
     if floor_size <= floor_thickness:
-        cmds.error(f"Floor thickness '{floor_thickness}' cannot be less than or equal to floor size '{floor_size}'")
+        cmds.error(f"Floor thickness '{floor_thickness}' cannot be "
+        f"less than or equal to floor size '{floor_size}'")
     if wall_height <= window_height:
-        cmds.error(f"Wall height '{wall_height}' cannot be less than or equal to window height '{window_height}'")
+        cmds.error(f"Wall height '{wall_height}' cannot be "
+        f"less than or equal to window height '{window_height}'")
     if wall_thickness < window_pane_thickness:
-        cmds.error(f"Window thickness '{window_thickness}' cannot be more than wall thickness '{wall_thickness}'")
+        cmds.error(f"Window thickness '{window_thickness}' cannot be "
+        "more than wall thickness '{wall_thickness}'")
     if abs(window_position[0]) >= ((floor_size/2.0)-(window_width/2.0)):
-        cmds.error(f"Window horizontal position '{window_position[0]}' must exist on the wall")
+        cmds.error(f"Window horizontal position '{window_position[0]}' "
+        f"must exist on the wall")
     if window_position[1] >= (wall_height-(window_height/2.0)):
-        cmds.error(f"Window vertical position '{window_position[1]}' must exist on the wall")
+        cmds.error(f"Window vertical position '{window_position[1]}' "
+        f"must exist on the wall")
     if window_position[1] <= (window_height/2.0):
-        cmds.error(f"Window vertical position '{window_position[1]}' must exist on the wall")
+        cmds.error(f"Window vertical position '{window_position[1]}' "
+        f"must exist on the wall")
     try:
         floor = geo.create_floor(
                     width=floor_size,
@@ -146,8 +163,8 @@ def create_story(
                     height=wall_height*2,
                     thickness=wall_thickness)
                     
-        walls_mat = mat.create_and_assign(walls, name="M_Walls_01", color=walls_color,
-                    material_type="lambert")
+        walls_mat = mat.create_and_assign(walls, name="M_Walls_01", 
+                    color=walls_color, material_type="lambert")
         
         #Hard-code the window pane's Z position so 
         #    it is always in the middle of the wall            
@@ -180,7 +197,8 @@ def create_story(
                     #Rotate and rename the window interceptor 
                     #    and window pane based on which of 
                     #    the window_count number of windows was just created       
-                    cmds.rotate(0, (90*i), 0, pane, objectSpace=True, pivot=(0,0,0))
+                    cmds.rotate(0, (90*i), 0, pane, objectSpace=True, 
+                                    pivot=(0,0,0))
                     print(pane)
                     #print(pane)
                     pane_list.append(pane)
@@ -248,17 +266,24 @@ def generate_building(name="Unnamed_Building_01",
            floor_thickness (float): Size along the Y axis of the floor.
            wall_height (float): Size along the Y axis of the walls.
            wall_thickness (float): Thickness of the walls.
-           window_count (int): The number of windows, with one window per wall; can be 0 to 4.
+           window_count (int): The number of windows, with one window per wall; 
+               can be 0 to 4.
            window_width (float): Size along the X axis of the window.
            window_height (float): Size along the Y axis of the window.
-           window_pane_thickness (float): Size along the Z axis of the window pane.
+           window_pane_thickness (float): Size along the Z axis of the window 
+               pane.
            window_position (tuple): (x, y) Position on the wall of the window.
-           floor_color (tuple): (r, g, b) color values, each in the range 0.0 to 1.0.
-           walls_color (tuple): (r, g, b) color values, each in the range 0.0 to 1.0.
-           window_color (tuple): (r, g, b) color values, each in the range 0.0 to 1.0.
-           roof_color (tuple): (r, g, b) color values, each in the range 0.0 to 1.0.
+           floor_color (tuple): (r, g, b) color values, each in the range 
+               0.0 to 1.0.
+           walls_color (tuple): (r, g, b) color values, each in the range 
+               0.0 to 1.0.
+           window_color (tuple): (r, g, b) color values, each in the range 
+               0.0 to 1.0.
+           roof_color (tuple): (r, g, b) color values, each in the range 
+               0.0 to 1.0.
            story_count (int): The number of stories in the building.
-           position (tuple): (x, y, z) Position of the full building at ground level.
+           position (tuple): (x, y, z) Position of the full building 
+               at ground level.
     
         Returns:
             str: The name of a group node containing the entire buidling with all generated stories.
@@ -266,51 +291,72 @@ def generate_building(name="Unnamed_Building_01",
     
     #Create the floor with the given parameters          
     if con.DEBUG:
-        print(f"[DEBUG] Generate Building: Floor Size={floor_size}, Floor Thickness={floor_thickness}, "
-            f"Wall Height={wall_height}, Wall Thickness={wall_thickness}, Window Count={window_count}, "
-            f"Window Width={window_width}, Window Height={window_height}, Window Pane Thickness={window_pane_thickness} " 
-            f"Window Position={window_position}, Floor Color={floor_color}, Walls Color={walls_color}, "
-            f"Window Color={window_color}, Roof Color={roof_color}, Story Count={story_count}, "
+        print(f"[DEBUG] Generate Building: Floor Size={floor_size}, "
+            f"Floor Thickness={floor_thickness}, Wall Height={wall_height}, "
+            f"Wall Thickness={wall_thickness}, Window Count={window_count}, "
+            f"Window Width={window_width}, Window Height={window_height}, "
+            f"Window Pane Thickness={window_pane_thickness}, "
+            f"Window Position={window_position}, Floor Color={floor_color}, "
+            f"Walls Color={walls_color}, Window Color={window_color}, "
+            f"Roof Color={roof_color}, Story Count={story_count}, "
             f"Building Position={position}")
     #Warning messages for negative values
     if floor_size <= 0:
-        cmds.warning(f"Invalid floor size {floor_size}"); floor_size = 1
+        cmds.warning(f"Invalid floor size {floor_size}")
+        floor_size = 1
     if floor_thickness <= 0:
-        cmds.warning(f"Invalid floor thickness {floor_thickness}"); floor_thickness = 1
+        cmds.warning(f"Invalid floor thickness {floor_thickness}")
+        floor_thickness = 1
     if wall_height <= 0:
-        cmds.warning(f"Invalid wall height {wall_height}"); wall_height = 1
+        cmds.warning(f"Invalid wall height {wall_height}")
+        wall_height = 1
     if wall_thickness <= 0:
-        cmds.warning(f"Invalid wall thickness {wall_thickness}"); wall_thickness = 1
+        cmds.warning(f"Invalid wall thickness {wall_thickness}")
+        wall_thickness = 1
     if window_count < 0:
-        cmds.warning(f"Invalid amount of windows {window_count}"); window_count = 0
+        cmds.warning(f"Invalid amount of windows {window_count}")
+        window_count = 0
     if window_width <= 0:
-        cmds.warning(f"Invalid window width {window_width}"); window_width = 1
+        cmds.warning(f"Invalid window width {window_width}")
+        window_width = 1
     if window_height <= 0:
-        cmds.warning(f"Invalid window height {window_height}"); window_height = 1
+        cmds.warning(f"Invalid window height {window_height}")
+        window_height = 1
     if window_pane_thickness <= 0:
-        cmds.warning(f"Invalid window pane thickness {window_pane_thickness}"); window_pane_thickness = 1
+        cmds.warning(f"Invalid window pane thickness {window_pane_thickness}")
+        window_pane_thickness = 1
     if story_count <= 0:
-        cmds.warning(f"Invalid amount of stories {story_count}"); story_count = 1
+        cmds.warning(f"Invalid amount of stories {story_count}")
+        story_count = 1
     if window_count > 4:
-        cmds.warning(f"Too many windows, defaulted to 4"); window_count = 4
+        cmds.warning("Too many windows, defaulted to 4")
+        window_count = 4
         
     #Error messages for broken values
     if floor_size <= window_width:
-        cmds.error(f"Window width '{window_width}' cannot be less than or equal to floor size '{floor_size}'")
+        cmds.error(f"Window width '{window_width}' cannot be "
+                    f"less than or equal to floor size '{floor_size}'")
     if floor_size <= wall_thickness:
-        cmds.error(f"Wall thickness '{wall_thickness}' cannot be less than or equal to floor size '{floor_size}'")
+        cmds.error(f"Wall thickness '{wall_thickness}' cannot be "
+                    f"less than or equal to floor size '{floor_size}'")
     if floor_size <= floor_thickness:
-        cmds.error(f"Floor thickness '{floor_thickness}' cannot be less than or equal to floor size '{floor_size}'")
+        cmds.error(f"Floor thickness '{floor_thickness}' cannot be "
+                    f"less than or equal to floor size '{floor_size}'")
     if wall_height <= window_height:
-        cmds.error(f"Wall height '{wall_height}' cannot be less than or equal to window height '{window_height}'")
+        cmds.error(f"Wall height '{wall_height}' cannot be "
+        f"less than or equal to window height '{window_height}'")
     if wall_thickness < window_pane_thickness:
-        cmds.error(f"Window pane thickness '{window_pane_thickness}' cannot be more than wall thickness '{wall_thickness}'")
+        cmds.error(f"Window pane thickness '{window_pane_thickness}' cannot be "
+                    f"more than wall thickness '{wall_thickness}'")
     if abs(window_position[0]) >= ((floor_size/2.0)-(window_width/2.0)):
-        cmds.error(f"Window horizontal position '{window_position[0]}' must exist on the wall")
+        cmds.error(f"Window horizontal position '{window_position[0]}' "
+                    f"must exist on the wall")
     if window_position[1] >= (wall_height-(window_height/2.0)):
-        cmds.error(f"Window vertical position '{window_position[1]}' must exist on the wall")
+        cmds.error(f"Window vertical position '{window_position[1]}' "
+                    f"must exist on the wall")
     if window_position[1] <= (window_height/2.0):
-        cmds.error(f"Window vertical position '{window_position[1]}' must exist on the wall")
+        cmds.error(f"Window vertical position '{window_position[1]}' "
+                    f"must exist on the wall")
     try:
         #Generate the building; conditional ensures building 
         #    will not try to generate if the amount of stories is 0
@@ -363,8 +409,8 @@ def generate_building(name="Unnamed_Building_01",
                     thickness=(floor_thickness*2),
                     position=(0, height*story_count, 0))    
             
-            roof_mat = mat.create_and_assign(roof, name="M_Roof_01", color=roof_color,
-                    material_type="lambert")
+            roof_mat = mat.create_and_assign(roof, name="M_Roof_01", 
+                    color=roof_color, material_type="lambert")
                     
             #Group all the floors of the building together   
             full_building = cmds.group(story_list, roof, name=name)
@@ -429,7 +475,8 @@ def build_all(buildings_config):
     
 
 def on_generate_building_clicked(*args):
-    """The config setup and generation of the full building based on the UI element.
+    """The config setup and generation of the full building 
+            based on the UI element.
     
         Args:
            None
@@ -562,7 +609,8 @@ def on_change_wall_window_horizontal(
             window_width_slider_name, 
             window_horizontal_position_slider_name, 
             *args):
-    """Change window horizontal slider limits based on update from other sliders 
+    """Change window horizontal slider limits based on 
+            updates from other sliders 
     
         Args:
            floor_size_slider_name (str): The name of the floor size slider
@@ -652,7 +700,8 @@ def build_ui():
     """
     
     #Delete the UI window if it is already open
-    if cmds.window(WINDOW_NAME, exists=True): cmds.deleteUI(WINDOW_NAME)
+    if cmds.window(WINDOW_NAME, exists=True): 
+        cmds.deleteUI(WINDOW_NAME)
     
     #Create the UI window
     cmds.window(
@@ -786,6 +835,8 @@ def build_ui():
     #Create a window section of the UI window    
     cmds.separator(height=12, style="in")
     cmds.text(label="Windows:", align="left")
+    
+    #Create a slider and integer field to control the window count
     widgets["window_count_slider"]  = cmds.intSliderGrp(
                                             label="Window Count: ", 
                                             field=True, 
@@ -794,6 +845,10 @@ def build_ui():
                                             fieldMinValue=0, 
                                             fieldMaxValue=4, 
                                             value=0)   
+                                            
+    #Create sliders and float fields to control 
+    #    the window width, window height, window pane thickness,
+    #    window horizontal position, and window vertical position
     widgets["window_width_slider"]  = cmds.floatSliderGrp(
                                             label="Window Width: ", 
                                             field=True, 
@@ -834,6 +889,8 @@ def build_ui():
                                             fieldMinValue=7.1, 
                                             fieldMaxValue=52.9, 
                                             value=30.0)
+                                            
+    #Create float fields aligned horiztonally to control the window color
     cmds.text(label="Window Color (RGB): ", align="left")
     cmds.rowLayout(
             numberOfColumns=3, 
@@ -853,16 +910,20 @@ def build_ui():
                                         maxValue=1.0, 
                                         value=0.814)
     cmds.setParent('..')
+    
+    #Create a color picker button for the windows to control their color
     widgets["window_color_button"] = cmds.button(label="Pick Window Color",
                     backgroundColor=(0.4, 0.5, 0.8),
                     command=partial(open_color_picker,
                                 widgets["window_color_r"],
                                 widgets["window_color_g"],
                                 widgets["window_color_b"])) 
-        
+    
+    #Create a full building section of the UI window    
     cmds.separator(height=12, style="in")
     cmds.text(label="Full Building Parameters:", align="left")
     
+    #Create float fields aligned horiztonally to control the roof color
     cmds.text(label="Roof Color (RGB): ", align="left")
     cmds.rowLayout(
             numberOfColumns=3, 
@@ -882,13 +943,16 @@ def build_ui():
                                         maxValue=1.0, 
                                         value=0.118)
     cmds.setParent('..')
+    
+    #Create a color picker button for the windows to control their color
     widgets["roof_color_button"] = cmds.button(label="Pick Roof Color",
                     backgroundColor=(0.4, 0.5, 0.8),
                     command=partial(open_color_picker,
                                 widgets["roof_color_r"],
                                 widgets["roof_color_g"],
                                 widgets["roof_color_b"])) 
-                
+    
+    #Create a slider and integer field to control the story count            
     widgets["story_count_slider"]  = cmds.intSliderGrp(
                                         label="Story Count: ", 
                                         field=True, minValue=1, 
@@ -896,6 +960,8 @@ def build_ui():
                                         fieldMinValue=0, 
                                         fieldMaxValue=10000000, 
                                         value=1)
+    
+    #Create float fields to control the full building's position
     cmds.text(label="Full Building X Position: ", align="left")
     widgets["building_x_position"]  = cmds.floatField(value=0.0)
     cmds.text(label="Full Building Y Position: ", align="left")
@@ -907,36 +973,38 @@ def build_ui():
     #    the new values determined in the on_change functions above
     cmds.floatSliderGrp(widgets["wall_height_slider"], e=True, 
                         cc=partial(on_change_wall_window, 
-                                    widgets["wall_height_slider"], 
-                                    widgets["window_height_slider"],
-                                    widgets["window_vertical_position_slider"]))
+                                widgets["wall_height_slider"], 
+                                widgets["window_height_slider"],
+                                widgets["window_vertical_position_slider"]))
     cmds.floatSliderGrp(widgets["window_height_slider"], e=True, 
                         cc=partial(on_change_wall_window, 
-                                    widgets["wall_height_slider"],
-                                    widgets["window_height_slider"],
-                                    widgets["window_vertical_position_slider"]))
+                                widgets["wall_height_slider"],
+                                widgets["window_height_slider"],
+                                widgets["window_vertical_position_slider"]))
     
     #Update the window horizontal position sliders to
     #    the new values determined in the on_change functions above                               
     cmds.floatSliderGrp(widgets["floor_size_slider"], e=True, 
                         cc=partial(on_change_wall_window_horizontal, 
-                                    widgets["floor_size_slider"],
-                                    widgets["window_width_slider"],
-                                    widgets["window_horizontal_position_slider"])) 
+                                widgets["floor_size_slider"],
+                                widgets["window_width_slider"],
+                                widgets["window_horizontal_position_slider"])) 
     cmds.floatSliderGrp(widgets["window_width_slider"], e=True, 
                         cc=partial(on_change_wall_window_horizontal, 
-                                    widgets["floor_size_slider"],
-                                    widgets["window_width_slider"],
-                                    widgets["window_horizontal_position_slider"]))  
+                                widgets["floor_size_slider"],
+                                widgets["window_width_slider"],
+                                widgets["window_horizontal_position_slider"]))  
                                               
-                
+    #Create a button that generates the full building 
+    #    based on the parameters input by the user
     cmds.button(label="Generate", command=on_generate_building_clicked,
                 backgroundColor=(0.4, 0.7, 0.4))
+                
+    #Open the window
     cmds.showWindow(WINDOW_NAME) 
   
     return
     
 if __name__ == "__main__":
     build_ui()
-    print("main self-test: Success!")    
-         
+    print("main self-test: Success!")   

@@ -3,7 +3,7 @@
 material_utils.py -- Material creation and assignment functions 
 for building_generator_tool.py.
 =======================================================================
-DIGM 131 - Week 6 | Author: Samuel Berg
+DIGM 131 - Week 11 | Author: Samuel Berg
 
 Material utility functions for creating and assigning shaders in Maya. 
 
@@ -37,7 +37,8 @@ def create_material(name="custom_mat", color=(0.5, 0.5, 0.5),
     
     #Create material
     shader = cmds.shadingNode(material_type, asShader=True, name=name)
-    sg = cmds.sets(renderable=True, noSurfaceShader=True, empty=True, name=name + "_SG")
+    sg = cmds.sets(renderable=True, noSurfaceShader=True, empty=True, 
+            name=name + "_SG")
     cmds.connectAttr(shader + ".outColor", sg + ".surfaceShader", force=True)
     cmds.setAttr(shader + ".color", *color, type="double3")
     

@@ -3,7 +3,7 @@
 geometry_utils.py -- Geometry creation functions 
 for building_generator_tool.py.
 ===============================================================================
-DIGM 131 - Week 6 | Author: Samuel Berg
+DIGM 131 - Week 11 | Author: Samuel Berg
 
 Geometry utility functions for creating and manipulating 3D primitives.
 
@@ -38,22 +38,28 @@ def create_floor(
     """
 
     if con.DEBUG:
-        print(f"[DEBUG] create_floor: width={width}, height={height}, depth={depth}")
+        print(f"[DEBUG] create_floor: width={width}, height={height}, "
+                f"depth={depth}")
     if width <= 0:
-        cmds.warning(f"Invalid width {width}"); width = 1
+        cmds.warning(f"Invalid width {width}")
+        width = 1
     if height <= 0:
-        cmds.warning(f"Invalid height {height}"); height = 1
+        cmds.warning(f"Invalid height {height}")
+        height = 1
     if depth <= 0:
-        cmds.warning(f"Invalid depth {depth}"); depth = 1
+        cmds.warning(f"Invalid depth {depth}")
+        depth = 1
     try:
-        #Create the floor with the given parameters and position it at ground level
+        #Create the floor with the given parameters and position it 
+        #    at ground level
         floor = cmds.polyCube(name="floor_01",
                     width=width,
                     height=height,
                     depth=depth) [0]
         cmds.move(0, height/2.0, 0, floor)
     except Exception as e:
-        cmds.warning(f"Failed: {e}"); return None
+        cmds.warning(f"Failed: {e}")
+        return None
 
     return floor
 
@@ -62,7 +68,8 @@ def create_walls(
             height=30,
             thickness=2):
                 
-    """Create a four-sided polygonal pipe with its base resting on the ground plane.
+    """Create a four-sided polygonal pipe with its base resting 
+            on the ground plane.
 
     Args:
         radius (float): Radius of the pipe.
@@ -74,13 +81,17 @@ def create_walls(
     """
     
     if con.DEBUG:
-        print(f"[DEBUG] create_walls: radius={radius}, height={height}, thickness={thickness}")
+        print(f"[DEBUG] create_walls: radius={radius}, height={height}, "
+                f"thickness={thickness}")
     if radius <= 0:
-        cmds.warning(f"Invalid radius {radius}"); radius = 0.5
+        cmds.warning(f"Invalid radius {radius}")
+        radius = 0.5
     if height <= 0:
-        cmds.warning(f"Invalid height {height}"); height = 1
+        cmds.warning(f"Invalid height {height}")
+        height = 1
     if thickness <= 0:
-        cmds.warning(f"Invalid thickness {thickness}"); thickness = 0.5
+        cmds.warning(f"Invalid thickness {thickness}")
+        thickness = 0.5
     try:
     #Create the walls with the given parameters, position them at ground level,
     #    and rotate them 45 degrees so they line up with the floor
@@ -92,7 +103,8 @@ def create_walls(
         cmds.move(0, height/4.0, 0, walls)
         cmds.rotate(0, 45, 0, walls)
     except Exception as e:
-        cmds.warning(f"Failed: {e}"); return None
+        cmds.warning(f"Failed: {e}")
+        return None
         
     return walls
     
@@ -104,28 +116,35 @@ def create_window(name="window_pane_01",
             pane_thickness=0.75,
             position=(0, 7.5, 25)):
                 
-    """Create two boxes, an interceptor to cut trhough the wall and one to be the window pane.
+    """Create two boxes, an interceptor to cut trhough the wall 
+            and one to be the window pane.
 
     Args:
         width (float): Size along the X axis.
         height (float): Size along the Y axis.
         depth (float): Size along the Z axis of the interceptor.
         pane_thickness: Size along the Z axis of the window pane.
-        position (tuple): (x, y, z) The position of the interceptor and window pane.
+        position (tuple): (x, y, z) The position of the interceptor 
+                                        and window pane.
     Returns:
         str: The name of the created transform node.
     """
     
     if con.DEBUG:
-        print(f"[DEBUG] create_window: width={width}, height={height}, depth={depth}, pane thickness={pane_thickness}")
+        print(f"[DEBUG] create_window: width={width}, height={height}, "
+                f"depth={depth}, pane thickness={pane_thickness}")
     if width <= 0:
-        cmds.warning(f"Invalid width {width}"); width = 1
+        cmds.warning(f"Invalid width {width}")
+        width = 1
     if height <= 0:
-        cmds.warning(f"Invalid height {height}"); height = 1
+        cmds.warning(f"Invalid height {height}")
+        height = 1
     if depth <= 0:
-        cmds.warning(f"Invalid depth {depth}"); depth = 1
+        cmds.warning(f"Invalid depth {depth}")
+        depth = 1
     if pane_thickness <= 0:
-        cmds.warning(f"Invalid pane thickness {pane_thickness}"); pane_thickness = 0.25
+        cmds.warning(f"Invalid pane thickness {pane_thickness}")
+        pane_thickness = 0.25
     try:
         #Create and position the interceptor with the given parameters
         window_interceptor = cmds.polyCube(
@@ -147,7 +166,8 @@ def create_window(name="window_pane_01",
                     position[2],
                     window_pane)
     except Exception as e:
-        cmds.warning(f"Failed: {e}"); return None
+        cmds.warning(f"Failed: {e}")
+        return None
         
     return (window_pane, window_interceptor)
  
@@ -177,20 +197,27 @@ def create_roof(
     """
     
     if con.DEBUG:
-        print(f"[DEBUG] create_roof: width={width}, roof height={roof_height}, depth={depth}, " 
-                f"radius={radius}, edge height={edge_height}, thickness={thickness}")
+        print(f"[DEBUG] create_roof: width={width}, roof height={roof_height}, "
+                f"depth={depth}, radius={radius}, edge height={edge_height}, "
+                f"thickness={thickness}")
     if width <= 0:
-        cmds.warning(f"Invalid width {width}"); width = 1
+        cmds.warning(f"Invalid width {width}")
+        width = 1
     if roof_height <= 0:
-        cmds.warning(f"Invalid roof height {roof_height}"); roof_height = 1
+        cmds.warning(f"Invalid roof height {roof_height}")
+        roof_height = 1
     if depth <= 0:
-        cmds.warning(f"Invalid depth {depth}"); depth = 1
+        cmds.warning(f"Invalid depth {depth}")
+        depth = 1
     if radius <= 0:
-        cmds.warning(f"Invalid radius {radius}"); radius = 0.5
+        cmds.warning(f"Invalid radius {radius}")
+        radius = 0.5
     if edge_height <= 0:
-        cmds.warning(f"Invalid edge height {edge_height}"); edge_height = 1
+        cmds.warning(f"Invalid edge height {edge_height}")
+        edge_height = 1
     if depth <= 0:
-        cmds.warning(f"Invalid thickness {thickness}"); thickness = 0.5
+        cmds.warning(f"Invalid thickness {thickness}")
+        thickness = 0.5
     try:
         #Create the roof with the given parameters
         roof = cmds.polyCube(name="roof_01",
@@ -215,7 +242,8 @@ def create_roof(
                     position[2],
                     roof_full)
     except Exception as e:
-        cmds.warning(f"Failed: {e}"); return None
+        cmds.warning(f"Failed: {e}")
+        return None
                     
     return roof_full
     
