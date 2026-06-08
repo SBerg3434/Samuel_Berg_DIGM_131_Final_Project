@@ -7,7 +7,6 @@ DIGM 131 - Week 10 | Author: Samuel Berg
 Main entry point that imports and uses all utility modules to
 generate a building.
 """
-
 from functools import partial
 
 import os
@@ -61,28 +60,37 @@ def create_story(
        floor_thickness (float): Size along the Y axis of the floor.
        wall_height (float): Size along the Y axis of the walls.
        wall_thickness (float): Thickness of the walls.
-       window_count (int): The number of windows, with one window per wall; can be 0 to 4.
+       window_count (int): The number of windows, with one window per wall; 
+           can be 0 to 4.
        window_width (float): Size along the X axis of the window.
        window_height (float): Size along the Y axis of the window.
        window_pane_thickness (float): Size along the Z axis of the window pane.
        window_position (tuple): (x, y) Position on the wall of the window.
-       floor_color (tuple): (r, g, b) color values, each in the range 0.0 to 1.0.
-       walls_color (tuple): (r, g, b) color values, each in the range 0.0 to 1.0.
-       window_color (tuple): (r, g, b) color values, each in the range 0.0 to 1.0.
+       floor_color (tuple): (r, g, b) color values, each in the range 0.0 
+           to 1.0.
+       walls_color (tuple): (r, g, b) color values, each in the range 0.0 
+           to 1.0.
+       window_color (tuple): (r, g, b) color values, each in the range 0.0 
+           to 1.0.
 
     Returns:
         str: The name of a group node containing the floor, walls, and windows.
     """
     if con.DEBUG:
-        print(f"[DEBUG] Create Story: Floor Size={floor_size}, Floor Thickness={floor_thickness}, "
-            f"Wall Height={wall_height}, Wall Thickness={wall_thickness}, Window Count={window_count}, "
-            f"Window Width={window_width}, Window Height={window_height}, Window Pane Thickness={window_pane_thickness} " 
-            f"Window Position={window_position}, Floor Color={floor_color}, Walls Color={walls_color}, "
-            f"Window Color={window_color}")
+        print(f"[DEBUG] Create Story: Floor Size={floor_size}," 
+            f"Floor Thickness={floor_thickness}, "
+            f"Wall Height={wall_height}, Wall Thickness={wall_thickness},"
+            f"Window Count={window_count}, Window Width={window_width}, "
+            f"Window Height={window_height}," 
+            f"Window Pane Thickness={window_pane_thickness}, " 
+            f"Window Position={window_position}, Floor Color={floor_color}," 
+            f"Walls Color={walls_color} Window Color={window_color}")
             
-    #Create the floor with the given parameters          
+    #Floor Debug       
     if con.DEBUG:
-        print(f"[DEBUG] create_floor: width={floor_size}, height={floor_thickness}, depth={floor_size}")
+        print(f"[DEBUG] create_floor: width={floor_size}," 
+                f"height={floor_thickness}, depth={floor_size}",
+                f"floor color={floor_color}")
     #Warning messages for negative values
     if floor_size <= 0:
         cmds.warning(f"Invalid floor size {floor_size}"); floor_size = 1
@@ -125,9 +133,12 @@ def create_story(
                     width=floor_size,
                     height=floor_thickness,
                     depth=floor_size)
-                    
-        floor_mat = mat.create_and_assign(floor, name="M_Floor_01", color=floor_color,
-                    material_type="lambert")
+        
+        if con.DEBUG:
+            print(f"[DEBUG] Floor Mat: floor color={floor_color}")   
+                 
+        floor_mat = mat.create_and_assign(floor, name="M_Floor_01", 
+                    color=floor_color, material_type="lambert")
     
         #Create the walls with the given parameters            
         walls = geo.create_walls(

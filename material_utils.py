@@ -41,7 +41,7 @@ def create_material(name="custom_mat", color=(0.5, 0.5, 0.5),
     cmds.connectAttr(shader + ".outColor", sg + ".surfaceShader", force=True)
     cmds.setAttr(shader + ".color", *color, type="double3")
     
-    return name
+    return shader
     
 
 def assign_material(obj_name, shader_name):
