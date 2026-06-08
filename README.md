@@ -17,5 +17,8 @@ material colors, and the tool builds the building automatically.
 4. Click the "Generate" button at the bottom of the UI window to generate a 
    building. If a value is invalid, an error will appear explaining what value
    failed and why that is the case. For more detailed troubleshooting, set the 
-   "DEBUG" variable to "True" in config.py.
+   "DEBUG" variable to "True" in config.py.  
+   
+NOTE: The tool can be used to generate as many buildings as desired by the
+artist.
 
